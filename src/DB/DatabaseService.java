@@ -7,8 +7,10 @@ public class DatabaseService {
     public Connection connection;
     private static DatabaseService instance;
 
-    private DatabaseService() throws SQLException {
-        this.connection = DriverManager.getConnection("jdbc:derby:foodDeliveryAppDB;create=true");
+    private DatabaseService() throws SQLException, ClassNotFoundException {
+        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        this.connection = DriverManager.getConnection("jdbc:derby:E:/transfer/Facultate/Food-Delivery-App/foodDeliveryAppDB;create=true");
+
         boolean notFoundUsers = true, notFoundDrivers = true;
 
         ResultSet results = connection.getMetaData().getTables(null, null, null, new String[]{"TABLE"});
@@ -21,8 +23,10 @@ public class DatabaseService {
 
         if (notFoundUsers) {
             connection.createStatement()
-                    .execute("CREATE TABLE users (ID char(36) primary key, username varchar(30) not null, email varchar(30) not null, password varchar(20) not null, address varchar(100) not null, age integer)");
+                    .execute("CREATE TABLE users (ID char(36) primary key, username varchar(37) not null, email varchar(30) not null, password varchar(20) not null, address varchar(100) not null, age integer)");
         }
+
+        //connection.createStatement().execute("INSERT INTO users VALUES ('54947df8-0e9e-4471-a2f9-9af509fb5889', 'Stefi', 'email', 'stefi', 'Strada', 20)");
     }
 
     public static DatabaseService getInstance() {
@@ -30,6 +34,7 @@ public class DatabaseService {
             try {
                 instance = new DatabaseService();
             } catch (Exception e) {
+                e.printStackTrace();
                 return null;
             }
         }

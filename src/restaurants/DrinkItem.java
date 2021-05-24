@@ -1,20 +1,19 @@
 package restaurants;
 
 public class DrinkItem extends MenuItem {
-    private boolean isAlcoholic;
+    private Boolean isAlcoholic;
 
     public DrinkItem(){
         super();
     }
 
-    public DrinkItem(String ID, String name, Double price, String ingredients, String allergens, boolean isAlcoholic){
-        super(ID, name, price, ingredients, allergens);
-        this.isAlcoholic = isAlcoholic;
+    public DrinkItem(String id){
+        super(id);
     }
 
-    public DrinkItem(String name, Double price, String ingredients, String allergens, boolean isAlcoholic){
-        super(name, price, ingredients, allergens);
+    public DrinkItem isAlcoholic(Boolean isAlcoholic){
         this.isAlcoholic = isAlcoholic;
+        return this;
     }
 
     public boolean isAlcoholic() {

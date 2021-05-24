@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class UsersController {
-    DatabaseService db = DatabaseService.getInstance();
+    static DatabaseService db = DatabaseService.getInstance();
 
     public User Create(String username, String email, String password, String address) throws Exception {
         User newUser = new User(username, email, password, address, 18);
@@ -25,7 +25,7 @@ public class UsersController {
         return null;
     }
 
-    public List<User> Read() throws Exception {
+    public static List<User> Read() throws Exception {
         List<User> users = new ArrayList<>();
         ResultSet results = db.connection.createStatement().executeQuery("SELECT ID, username, email, address, age FROM users");
         while(results.next()){
