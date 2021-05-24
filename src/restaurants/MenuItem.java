@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public class MenuItem {
     private String ID;
+    private String restaurantId;
     protected String name;
     protected Double price;
     protected String ingredients;       //separate prin virgula
@@ -15,20 +16,33 @@ public class MenuItem {
         this.ID = UUID.randomUUID().toString();
     }
 
-    public MenuItem(String ID, String name, Double price, String ingredients, String allergens) {
-        this.ID = ID;
-        this.name = name;
-        this.price = price;
-        this.ingredients = ingredients;
-        this.allergens = allergens;
+    public MenuItem(String id){
+        this.ID = id;
     }
 
-    public MenuItem(String name, Double price, String ingredients, String allergens) {
-        this.ID = UUID.randomUUID().toString();
+    public MenuItem restaurantId(String id){
+        this.restaurantId = id;
+        return this;
+    }
+
+    public MenuItem name(String name){
         this.name = name;
+        return this;
+    }
+
+    public MenuItem price(Double price){
         this.price = price;
+        return this;
+    }
+
+    public MenuItem ingredients(String ingredients){
         this.ingredients = ingredients;
+        return this;
+    }
+
+    public MenuItem allergens(String allergens){
         this.allergens = allergens;
+        return this;
     }
 
     public String getID() {

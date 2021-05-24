@@ -1,26 +1,30 @@
 package restaurants;
 
 public class FoodItem extends MenuItem {
-    public boolean isSpicy;
-    public boolean isVegetarian;
-    public boolean isVegan;
+    public Boolean isSpicy;
+    public Boolean isVegetarian;
+    public Boolean isVegan;
 
     public FoodItem(){
         super();
     }
-
-    public FoodItem(String ID, String name, float price, String ingredients, String allergens, boolean isSpicy, boolean isVegetarian, boolean isVegan){
-        super(ID, name, price, ingredients, allergens);
-        this.isSpicy = isSpicy;
-        this.isVegetarian = isVegetarian;
-        this.isVegan = isVegan;
+    public FoodItem(String id){
+        super(id);
     }
 
-    public FoodItem(String name, float price, String ingredients, String allergens, boolean isSpicy, boolean isVegetarian, boolean isVegan){
-        super(name, price, ingredients, allergens);
+    public FoodItem isSpicy(Boolean isSpicy){
         this.isSpicy = isSpicy;
+        return this;
+    }
+
+    public FoodItem isVegetarian(Boolean isVegetarian){
         this.isVegetarian = isVegetarian;
+        return this;
+    }
+
+    public FoodItem isVegan(Boolean isVegan){
         this.isVegan = isVegan;
+        return this;
     }
 
     public boolean isSpicy() {

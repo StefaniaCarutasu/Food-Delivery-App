@@ -7,12 +7,12 @@ public class DrinkItem extends MenuItem {
         super();
     }
 
-    public DrinkItem(String ID, String name, float price, String ingredients, String allergens, boolean isAlcoholic){
+    public DrinkItem(String ID, String name, Double price, String ingredients, String allergens, boolean isAlcoholic){
         super(ID, name, price, ingredients, allergens);
         this.isAlcoholic = isAlcoholic;
     }
 
-    public DrinkItem(String name, float price, String ingredients, String allergens, boolean isAlcoholic){
+    public DrinkItem(String name, Double price, String ingredients, String allergens, boolean isAlcoholic){
         super(name, price, ingredients, allergens);
         this.isAlcoholic = isAlcoholic;
     }

@@ -51,7 +51,7 @@ public class UsersController {
     }
 
     public TreeMap<String, List<String>> showOrderHistory(String id) throws SQLException {
-        PreparedStatement statement = db.connection.prepareStatement("""
+        PreparedStatement fStatement = db.connection.prepareStatement("""
                 SELECT O.ID, O.DATE, R.NAME, FI.NAME, FI.PRICE
                 FROM USERS JOIN ORDERS O on USERS.ID = O.USER_ID
                            JOIN RESTAURANTS R ON O.RESTAURANT_ID = R.ID
@@ -59,9 +59,9 @@ public class UsersController {
                            JOIN FOOD_ITEMS FI on FI.ID = OFI.ITEM_ID
                 WHERE O.USER_ID like ?""");
 
-        statement.setString(1, id);
+        fStatement.setString(1, id);
 
-        ResultSet results = statement.executeQuery();
+        ResultSet results = fStatement.executeQuery();
 
         TreeMap<String, List<String>> orders = new TreeMap<>();
 
@@ -78,6 +78,34 @@ public class UsersController {
                 l.add(Double.toString(results.getDouble(5)));
 
                 orders.put(results.getString(2), l);
+            }
+        }
+
+        PreparedStatement dStatement = db.connection.prepareStatement("""
+                SELECT O.ID, O.DATE, R.NAME, FI.NAME, FI.PRICE
+                FROM USERS JOIN ORDERS O on USERS.ID = O.USER_ID
+                           JOIN RESTAURANTS R ON O.RESTAURANT_ID = R.ID
+                           JOIN ORDER_DRINK_ITEMS ODI on O.ID = ODI.ORDER_ID
+                           JOIN DRINK_ITEMS DI on DI.ID = ODI.ITEM_ID
+                WHERE O.USER_ID like ?""");
+
+        dStatement.setString(1, id);
+
+        ResultSet dResults = fStatement.executeQuery();
+
+        while(dResults.next()){
+            if(orders.containsKey(dResults.getString(2))){
+                orders.get(dResults.getString(2)).add(dResults.getString(3));
+                orders.get(dResults.getString(2)).add(dResults.getString(4));
+                orders.get(dResults.getString(2)).add(Double.toString(dResults.getDouble(5)));
+            }
+            else {
+                List<String> l = new ArrayList<>();
+                l.add(dResults.getString(3));
+                l.add(dResults.getString(4));
+                l.add(Double.toString(dResults.getDouble(5)));
+
+                orders.put(dResults.getString(2), l);
             }
         }
 
