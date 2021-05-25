@@ -15,36 +15,28 @@ public class User {
     public User(){
         this.ID = UUID.randomUUID().toString();
     }
-
-    public User(String ID, String userName, String email, String address, int age ){
-        this.ID = ID;
-        this.Username = userName;
-        this.Email = email;
-        this.Address = address;
-        this.Age = age;
-    }
-
-    public User(String userName, String email, String password, String address){
-        this.ID = UUID.randomUUID().toString();
-        this.Username = userName;
-        this.Email = email;
-        this.Password = password;
-        this.Address = address;
-    }
-
-    public User(String id, String userName, String email, String password, String address, int age ){
+    public User(String id){
         this.ID = id;
-        this.Username = userName;
-        this.Email = email;
-        this.Password = password;
-        this.Address = address;
-        this.Age = age;
     }
-
-    public User(String id, String userName, String email) {
-        this.ID = id;
-        this.Username = userName;
+    public User username(String username){
+        this.Username = username;
+        return this;
+    }
+    public User email(String email){
         this.Email = email;
+        return this;
+    }
+    public User password(String password){
+        this.Password = password;
+        return this;
+    }
+    public User address(String address){
+        this.Address = address;
+        return this;
+    }
+    public User age(Integer age){
+        this.Age = age;
+        return this;
     }
 
     public String getID() {

@@ -10,8 +10,9 @@ public class UsersController {
     static DatabaseService db = DatabaseService.getInstance();
 
     public User Create(String username, String email, String password, String address) throws Exception {
-        User newUser = new User(username, email, password, address, 18);
+        User newUser = new User().username(username).email(email).password(password).address(address);
         PreparedStatement statement = db.connection.prepareStatement("INSERT INTO users (ID, USERNAME, EMAIL, PASSWORD, ADDRESS, AGE) VALUES (?,?,?,?,?)");
+
         statement.setString(1, newUser.getID());
         statement.setString(2, newUser.getUsername());
         statement.setString(3, newUser.getEmail());
@@ -29,13 +30,23 @@ public class UsersController {
         List<User> users = new ArrayList<>();
         ResultSet results = db.connection.createStatement().executeQuery("SELECT ID, username, email, address, age FROM users");
         while(results.next()){
-            users.add(new User(results.getString(1), results.getString(2),results.getString(3), results.getString(4), results.getInt(5)));
+            users.add(new User(results.getString(1)).username(results.getString(2)).email(results.getString(3)).address(results.getString(4)).age(results.getInt(5)));
         }
         return users;
     }
 
+    public User FindUserByUserName(String userName) throws SQLException {
+        PreparedStatement statement = db.connection.prepareStatement("SELECT ID, USERNAME, EMAIL, ADDRESS FROM USERS WHERE USERNAME LIKE ?");
+        statement.setString(1, userName);
+        ResultSet result = statement.executeQuery();
+
+        User searchedUser = new User(result.getString(1)).username(result.getString(2)).email(result.getString(3)).address(result.getString(4));
+
+        return searchedUser;
+    }
+
     public boolean Update(String id, String fieldToUpdate, String updatedValue) throws Exception {
-        PreparedStatement statement = db.connection.prepareStatement("UPDATE users SET ? = ?, WHERE id = ?");
+        PreparedStatement statement = db.connection.prepareStatement("UPDATE users SET ? = ? WHERE id = ?");
 
         statement.setString(1, fieldToUpdate);
         statement.setString(2, updatedValue);
@@ -111,5 +122,6 @@ public class UsersController {
 
         return orders;
     }
+
 
 }

@@ -1,5 +1,6 @@
 package restaurants;
 
+import java.util.Comparator;
 import java.util.UUID;
 
 public class Restaurant {
@@ -9,36 +10,46 @@ public class Restaurant {
     protected String PhoneNumber;
     protected String Email;
     protected String Type;
-    Menu menu;
+    protected String Address;
 
     public Restaurant(){
         this.ID = UUID.randomUUID().toString();
-        this.menu = new Menu(ID);
     }
 
-    public Restaurant(String name, String ownerName, String type) {
-        this.ID = UUID.randomUUID().toString();
-        this.Name = name;
-        this.OwnerName = ownerName;
-        this.menu = new Menu(ID);
-        this.Type = type;
+    public Restaurant(String id){
+        this.ID = id;
     }
 
-    public Restaurant(String ID, String name, String ownerName, String type) {
-        this.ID = ID;
+    public Restaurant name(String name){
         this.Name = name;
-        this.OwnerName = ownerName;
-        this.Type = type;
-        this.menu = new Menu(ID);
+        return this;
     }
 
-    public Restaurant(String ID, String name, String ownerName, String type, Menu menu) {
-        this.ID = ID;
-        this.Name = name;
-        this.OwnerName = ownerName;
-        this.Type = type;
-        this.menu = menu;
+    public Restaurant owner(String name){
+        this.OwnerName = name;
+        return this;
     }
+
+    public Restaurant phone(String number){
+        this.PhoneNumber = number;
+        return this;
+    }
+
+    public Restaurant email(String email){
+        this.Email = email;
+        return this;
+    }
+
+    public Restaurant type(String type){
+        this.Type = type;
+        return this;
+    }
+
+    public Restaurant address(String address){
+        this.Address = address;
+        return this;
+    }
+
 
     public String getID() {
         return ID;
@@ -80,20 +91,20 @@ public class Restaurant {
         Email = email;
     }
 
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
-
     public String getType() {
         return Type;
     }
 
     public void setType(String type) {
         Type = type;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
     }
 
     @Override
@@ -103,7 +114,15 @@ public class Restaurant {
                 ", PhoneNumber='" + PhoneNumber + '\'' +
                 ", Email='" + Email + '\'' +
                 ", Type='" + Type + '\'' +
-                ", menu=" + menu +
                 '}';
     }
+}
+
+class RestaurantsComparator implements Comparator<Restaurant> {
+
+    @Override
+    public int compare(Restaurant res1, Restaurant res2) {
+        return String.CASE_INSENSITIVE_ORDER.compare(res1.getName(), res2.getName());
+    }
+
 }

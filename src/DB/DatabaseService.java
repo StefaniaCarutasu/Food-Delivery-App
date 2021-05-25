@@ -26,7 +26,7 @@ public class DatabaseService {
                     .execute("CREATE TABLE users (ID char(36) primary key, username varchar(37) not null, email varchar(30) not null, password varchar(20) not null, address varchar(100) not null, age integer)");
         }
 
-        //connection.createStatement().execute("INSERT INTO users VALUES ('54947df8-0e9e-4471-a2f9-9af509fb5889', 'Stefi', 'email', 'stefi', 'Strada', 20)");
+
     }
 
     public static DatabaseService getInstance() {
