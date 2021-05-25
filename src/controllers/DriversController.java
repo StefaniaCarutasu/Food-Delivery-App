@@ -9,8 +9,12 @@ import java.util.List;
 public class DriversController {
     DatabaseService db = DatabaseService.getInstance();
 
-    public Driver Create(String Drivername, String email, String password, String address,String vehicleType, String vehicleNumber) throws Exception {
-        Driver newDriver = new Driver(Drivername, email, password, address, vehicleType, vehicleNumber);
+    public Driver Create(String Drivername, String email, String password, String vehicleType, String vehicleNumber) throws Exception {
+        Driver newDriver = new Driver().availability(true).vehicleNumber(vehicleNumber).vehicleType(vehicleType);
+        newDriver.setUsername(Drivername);
+        newDriver.setEmail(email);
+        newDriver.setPassword(password);
+
         PreparedStatement statement = db.connection.prepareStatement("INSERT INTO Drivers (ID, USERNAME, EMAIL, PASSWORD, VEHICLE_TYPE, VEHICLE_NUMBER, AVAILABILITY) VALUES (?,?,?,?,?)");
         statement.setString(1, newDriver.getID());
         statement.setString(2, newDriver.getUsername());
@@ -30,7 +34,10 @@ public class DriversController {
         List<Driver> Drivers = new ArrayList<>();
         ResultSet results = db.connection.createStatement().executeQuery("SELECT ID, USERNAME, EMAIL, VEHICLE_TYPE, VEHICLE_NUMBER, AVAILABILITY FROM DRIVERS");
         while(results.next()){
-            Drivers.add(new Driver(results.getString(1), results.getString(2), results.getString(3), results.getString(5), results.getString(6), results.getBoolean(7)));
+            Driver driver = new Driver(results.getString(1)).vehicleType(results.getString(4)).vehicleNumber(results.getString(5)).availability(results.getBoolean(6));
+            driver.setUsername(results.getString(2));
+            Drivers.add(driver);
+            //Drivers.add(new Driver(results.getString(1), results.getString(2), results.getString(3), results.getString(5), results.getString(6), results.getBoolean(7)));
         }
         return Drivers;
     }

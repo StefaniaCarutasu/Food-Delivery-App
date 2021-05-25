@@ -1,5 +1,6 @@
 package controllers;
 import DB.DatabaseService;
+import orders.Order;
 import users.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,32 +36,72 @@ public class UsersController {
         return users;
     }
 
-    public User FindUserByUserName(String userName) throws SQLException {
-        PreparedStatement statement = db.connection.prepareStatement("SELECT ID, USERNAME, EMAIL, ADDRESS FROM USERS WHERE USERNAME LIKE ?");
-        statement.setString(1, userName);
-        ResultSet result = statement.executeQuery();
+    public static User FindUserByUserName(String userName) throws Exception {
+        PreparedStatement st = db.connection.prepareStatement("SELECT ID, USERNAME, EMAIL, ADDRESS FROM USERS WHERE USERNAME = ?");
+        st.setString(1, userName);
 
+        ResultSet result = st.executeQuery();
+        result.next();
+        User searchedUser = new User(result.getString(1)).username(result.getString(2)).email(result.getString(3)).address(result.getString(4));
+
+        return searchedUser;
+
+    }
+
+    public static User FindUserById(String id) throws Exception {
+        PreparedStatement st = db.connection.prepareStatement("SELECT ID, USERNAME, EMAIL, ADDRESS FROM USERS WHERE ID = ?");
+        st.setString(1, id);
+
+        ResultSet result = st.executeQuery();
+        result.next();
         User searchedUser = new User(result.getString(1)).username(result.getString(2)).email(result.getString(3)).address(result.getString(4));
 
         return searchedUser;
     }
 
-    public boolean Update(String id, String fieldToUpdate, String updatedValue) throws Exception {
-        PreparedStatement statement = db.connection.prepareStatement("UPDATE users SET ? = ? WHERE id = ?");
+    public static boolean Update(String id, String fieldToUpdate, String updatedValue) throws Exception {
+        PreparedStatement statement;
+        switch (fieldToUpdate){
+            case "USERNAME":
+                statement = db.connection.prepareStatement("UPDATE USERS SET USERNAME = ? WHERE ID LIKE ?");
+                statement.setString(1, updatedValue);
+                statement.setString(2, id);
+                return statement.executeUpdate() == 1;
+            case "EMAIL":
+                statement = db.connection.prepareStatement("UPDATE USERS SET EMAIL = ? WHERE ID LIKE ?");
+                statement.setString(1, updatedValue);
+                statement.setString(2, id);
+                return statement.executeUpdate() == 1;
+            case "PASSWORD":
+                statement = db.connection.prepareStatement("UPDATE USERS SET PASSWORD = ? WHERE ID LIKE ?");
+                statement.setString(1, updatedValue);
+                statement.setString(2, id);
+                return statement.executeUpdate() == 1;
+            case "ADDRESS":
+                statement = db.connection.prepareStatement("UPDATE USERS SET ADDRESS = ? WHERE ID LIKE ?");
+                statement.setString(1, updatedValue);
+                statement.setString(2, id);
+                return statement.executeUpdate() == 1;
+            case "AGE":
+                statement = db.connection.prepareStatement("UPDATE USERS SET AGE = ? WHERE ID LIKE ?");
+                statement.setInt(1, Integer.parseInt(updatedValue));
+                statement.setString(2, id);
+                return statement.executeUpdate() == 1;
+            default:
+                return false;
+        }
 
-        statement.setString(1, fieldToUpdate);
-        statement.setString(2, updatedValue);
-        statement.setString(3, id);
 
-        return statement.executeUpdate() == 1;
     }
 
+
     public boolean Delete(String id) throws Exception {
-        PreparedStatement statement = db.connection.prepareStatement("DELETE FROM users WHERE id = ?");
+        PreparedStatement statement = db.connection.prepareStatement("DELETE FROM users WHERE id like ?");
         statement.setString(1, id);
         return statement.executeUpdate() == 1;
     }
 
+    /*
     public TreeMap<String, List<String>> showOrderHistory(String id) throws SQLException {
         PreparedStatement fStatement = db.connection.prepareStatement("""
                 SELECT O.ID, O.DATE, R.NAME, FI.NAME, FI.PRICE
@@ -121,6 +162,22 @@ public class UsersController {
         }
 
         return orders;
+    } */
+
+    public TreeMap<Order, String> ShowOrderHistory(String userId) throws SQLException {
+        TreeMap<Order, String> orderHistory = new TreeMap<>();
+        PreparedStatement statement = db.connection.prepareStatement("""
+                SELECT O.ID, R.NAME, PRICE, PAYMENT_METHOD, DATE
+                FROM ORDERS O JOIN RESTAURANTS R on O.RESTAURANT_ID = R.ID
+                WHERE USER_ID LIKE ?""");
+        statement.setString(1, userId);
+
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()){
+            orderHistory.put(new Order(resultSet.getString(1)).date(resultSet.getDate(5)).price(resultSet.getDouble(3)).paymentMethod(resultSet.getString(4)), resultSet.getString(2));
+        }
+
+        return orderHistory;
     }
 
 

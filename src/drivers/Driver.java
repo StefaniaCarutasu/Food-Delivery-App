@@ -7,33 +7,28 @@ public class Driver extends User {
     protected String VehicleNumber;
     protected Boolean Availability;
 
-    public Driver(String id, String userName, String email, String password, String address, int age, String vehicleType, String vehicleNumber ){
-        super(id, userName, email, password, address, age);
-        this.VehicleNumber = vehicleNumber;
-        this.Availability = Boolean.TRUE;
-        this.VehicleType = vehicleType;
+    public Driver(){
+        super();
     }
 
-    public Driver(String userName, String email, String password, String address, int age, String vehicleType, String vehicleNumber ){
-        super(userName, email, password, address, age);
-        this.VehicleNumber = vehicleNumber;
-        this.Availability = Boolean.TRUE;
-        this.VehicleType = vehicleType;
+    public Driver(String id){
+        super(id);
     }
 
-    public Driver(String userName, String email, String password, String address, String vehicleType, String vehicleNumber ){
-        super(userName, email, password, address);
-        this.VehicleNumber = vehicleNumber;
-        this.Availability = Boolean.TRUE;
+    public Driver vehicleNumber(String vehicleNumber){
+        this.VehicleType = vehicleNumber;
+        return this;
+    }
+    public Driver vehicleType(String vehicleType){
         this.VehicleType = vehicleType;
+        return this;
+    }
+    public Driver availability(Boolean availability){
+        this.Availability = availability;
+        return this;
     }
 
-    public Driver(String ID, String userName, String email, String vehicleType, String vehicleNumber, Boolean availability){
-        super(ID, userName, email);
-        this.VehicleNumber = vehicleNumber;
-        this.Availability = Boolean.TRUE;
-        this.VehicleType = vehicleType;
-    }
+
 
     public String getVehicleType() {
         return VehicleType;

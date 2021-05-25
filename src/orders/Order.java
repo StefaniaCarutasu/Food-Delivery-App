@@ -1,43 +1,79 @@
 package orders;
 
 import restaurants.MenuItem;
+
+import javax.swing.plaf.DimensionUIResource;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class Orders {
+public class Order {
     private String ID;
     protected String Status;
     protected String UserId;
     protected String RestaurantId;
     protected String DriverId;
     protected String PaymentMethod;
+    protected java.sql.Date placeDate;
     public List<MenuItem> orderedItems;
-    protected float totalPrice;
+    protected Double totalPrice = 0.0;
 
-    public Orders(){
+    public Order(){
         this.ID = UUID.randomUUID().toString();
+        long millis=System.currentTimeMillis();
+        this.placeDate = new java.sql.Date(millis);
     }
 
-    public Orders(String status, String userId, String restaurantId, String driverId, String paymentMethod, List<MenuItem> orderedItems) {
-        this.ID = UUID.randomUUID().toString();
-        Status = status;
-        UserId = userId;
-        RestaurantId = restaurantId;
-        DriverId = driverId;
-        PaymentMethod = paymentMethod;
-        this.orderedItems = orderedItems;
-        this.totalPrice = calculatePrice(orderedItems);
+    public Order(String id){
+        this.ID = id;
+    }
+    public Order status(String status){
+        this.Status = status;
+        return this;
+    }
+    public Order userId(String userId){
+        this.UserId = userId;
+        return this;
+    }
+    public Order restaurantId(String restaurantId){
+        this.RestaurantId = restaurantId;
+        return this;
+    }
+    public Order driverId(String driverId){
+        this.DriverId = driverId;
+        return this;
+    }
+    public Order paymentMethod(String paymentMethod){
+        this.PaymentMethod = paymentMethod;
+        return this;
+    }
+    public Order orderedItems(List<MenuItem> items){
+        this.orderedItems = items;
+        return this;
+    }
+    public Order totalPrice(){
+        for(MenuItem item: this.orderedItems){
+            totalPrice += item.getPrice();
+        }
+        return this;
     }
 
-    public Orders(String ID, String status, String userId, String restaurantId, String driverId, String paymentMethod, List<MenuItem> orderedItems) {
-        this.ID = ID;
-        Status = status;
-        UserId = userId;
-        RestaurantId = restaurantId;
-        DriverId = driverId;
-        PaymentMethod = paymentMethod;
-        this.orderedItems = orderedItems;
-        this.totalPrice = calculatePrice(orderedItems);
+    public Order price(Double price){
+        this.totalPrice = price;
+        return this;
+    }
+
+    public Order date(java.sql.Date date){
+        this.placeDate = date;
+        return this;
+    }
+
+    public java.sql.Date getPlaceDate() {
+        return placeDate;
+    }
+
+    public void setPlaceDate(java.sql.Date placeDate) {
+        this.placeDate = placeDate;
     }
 
     public String getID() {
@@ -96,11 +132,11 @@ public class Orders {
         this.orderedItems = orderedItems;
     }
 
-    public float getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

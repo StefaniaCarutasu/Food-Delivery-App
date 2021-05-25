@@ -7,6 +7,7 @@ import restaurants.Restaurant;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -76,4 +77,17 @@ public class RestaurantsController {
 
         return statement.executeUpdate() == 1;
     }
+
+    public boolean Delete(String id) throws SQLException {
+        PreparedStatement statement = db.connection.prepareStatement("DELETE FROM RESTAURANTS WHERE ID LIKE ?");
+        statement.setString(1, id);
+        return statement.executeUpdate() == 1;
+    }
+
+    /*
+    public TreeMap<String, List<MenuItem>> ShowRestaurant(String id){
+        TreeMap<String, List<MenuItem>> restaurant = new TreeMap<>();
+
+
+    }*/
 }

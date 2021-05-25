@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class MenuItem {
     private String ID;
-    private String restaurantId;
+    private String RestaurantId;
     protected String name;
     protected Double price;
     protected String ingredients;       //separate prin virgula
@@ -21,7 +21,7 @@ public class MenuItem {
     }
 
     public MenuItem restaurantId(String id){
-        this.restaurantId = id;
+        this.RestaurantId = id;
         return this;
     }
 
