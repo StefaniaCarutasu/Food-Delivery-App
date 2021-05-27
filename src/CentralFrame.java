@@ -17,18 +17,32 @@ import java.util.Vector;
 
 public class CentralFrame extends JFrame {
     private Container c;
+    private static JButton nextFrame;
 
     public CentralFrame() throws Exception {
         setTitle("Registration form");
         setBounds(300, 90, 900, 600);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        nextFrame = new JButton("New User");
+        nextFrame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    LoginFrame f = new LoginFrame();
+                } catch (FontFormatException fontFormatException) {
+                    fontFormatException.printStackTrace();
+                }
+            }
+        });
+        nextFrame.setSize(100, 20);
+        nextFrame.setBackground(new Color(226, 190, 235));
         c = getContentPane();
         c.setLayout(null);
-        c.add(showRestaurantsUsersDrivers());
-
+        c.setBackground(new Color(226, 190, 235));
+        c.add(showRestaurantsUsersDrivers(), BorderLayout.CENTER);
         setVisible(true);
     }
+
 
     public static JPanel popUpPanelRestaurant(JPanel parentPanel){
         JPanel panouRestaurant = new JPanel();
@@ -37,10 +51,12 @@ public class CentralFrame extends JFrame {
         JButton buton = new JButton("Afiseaza restaurant");
         JTextField text = new JTextField(20);
 
+
         panouRestaurant.add(eticheta);
         panouRestaurant.add(text);
         panouRestaurant.add(buton);
-
+        panouRestaurant.add(nextFrame, BorderLayout.EAST);
+        buton.setBackground(new Color(226, 190, 235));
         buton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,7 +101,6 @@ public class CentralFrame extends JFrame {
 
                     JLabel label = new JLabel();
                     label.setText(restaurant);
-
                     panouPrincipal.add(label, BorderLayout.NORTH);
 
                     JScrollPane spMancare = new JScrollPane(listaMancare);
@@ -93,14 +108,15 @@ public class CentralFrame extends JFrame {
                     panouProduse.setLayout(new GridLayout(1, 2));
                     panouProduse.add(spMancare);
                     panouProduse.add(spBauturi);
-
                     panouPrincipal.add(panouProduse, BorderLayout.CENTER);
 
                     JOptionPane showOneRestaurant = new JOptionPane(restaurant);
                     showOneRestaurant.add(panouPrincipal);
                     parentPanel.add(showOneRestaurant);
-
+                    Popup po;
+                    PopupFactory pf = new PopupFactory();
                     JOptionPane.showMessageDialog(parentPanel, panouPrincipal);
+                    panouPrincipal.setBackground(new Color(226, 190, 235));
 
                 } catch (SQLException throwables) {
                     restaurant = "Nu exista acest restaurant. Verificati daca ati introdus numele corect!";
@@ -111,8 +127,6 @@ public class CentralFrame extends JFrame {
 
                     JOptionPane.showMessageDialog(parentPanel, nuAGasit);
                 }
-
-
             }
         });
 
@@ -135,13 +149,18 @@ public class CentralFrame extends JFrame {
         List<Restaurant> restaurantList = RestaurantsController.Read();
         Vector<String> elemente = new Vector<>();
         elemente.add("<html>RESTAURANTE<br><br>");
+
+        elemente.add("<html><table>");
         int i = 1;
+
         for(Restaurant r: restaurantList){
 
-            String elem = "<html>" +  String.valueOf(i) + ") Name: " + r.getName() + "<br/>Email: " + r.getEmail() + "<br/>Phone: " + r.getPhoneNumber() + "<br/>Address: " + r.getAddress() + "<br/><br/>" ;
+            String elem = "<html><tr><td>" + String.valueOf(i) + ") Name: " + r.getName() + "<br/>Email: " + r.getEmail() + "<br/>Phone: " + r.getPhoneNumber() + "<br/>Address: " + r.getAddress() + "<br/><br/></td></tr>" ;
             elemente.add(elem);
             i += 1;
         }
+        elemente.add("<html></table>");
+       // elemente.add("</html>");
 
         JList lista = new JList(elemente);
 
@@ -215,7 +234,7 @@ public class CentralFrame extends JFrame {
     static JFrame showRestaurantsUsersDrivers() throws Exception {
 
         JFrame frame = new JFrame("Glovo 2.0");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
         JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -227,11 +246,12 @@ public class CentralFrame extends JFrame {
 
         tabbedPane.addTab("Driveri", null, allDriversPanel());
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
-
+        tabbedPane.setBackground(new Color(226, 190, 235));
 
 
         frame.add(tabbedPane, BorderLayout.CENTER);
-        frame.setSize(800, 400);
+        frame.setSize(900, 600);
+        frame.setBackground(new Color(226, 190, 235));
         frame.setVisible(true);
 
         return frame;
@@ -240,7 +260,6 @@ public class CentralFrame extends JFrame {
 
     public static void main(String[] args) throws Exception {
         CentralFrame cf = new CentralFrame();
-
 
     }
 }

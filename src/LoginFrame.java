@@ -28,17 +28,36 @@ public class LoginFrame extends JFrame implements ActionListener {
     private JButton submit;
     private JLabel res;
 
-    public LoginFrame(){
+    private JButton showRestaurants;
+
+    public LoginFrame() throws FontFormatException {
         setTitle("Registration form");
         setBounds(300, 90, 900, 600);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(HIDE_ON_CLOSE);
+
+        showRestaurants = new JButton("Restaurants");
+        showRestaurants.setLocation(700, 25);
+        showRestaurants.setSize(150, 35);
+        showRestaurants.setBackground(new Color(226, 190, 235));
+        showRestaurants.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    CentralFrame cf = new CentralFrame();
+                } catch (Exception exception) {
+                    JLabel l = new JLabel("Nu s-a putut deschide fereastra");
+                    c.add(l);
+                }
+            }
+        });
 
         c = getContentPane();
         c.setLayout(null);
+        c.add(showRestaurants);
 
         //TITLU
         title = new JLabel("Registration Form");
-        title.setFont(new Font("Arial", Font.PLAIN, 30));
+        title.setFont(new Font("Arial", Font.ITALIC, 30));
         title.setSize(300, 30);
         title.setLocation(330, 30);
         c.add(title);
@@ -122,6 +141,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         submit.setSize(100, 20);
         submit.setLocation(420, 450);
         submit.addActionListener(this);
+        submit.setBackground(new Color(226, 190, 235));
         c.add(submit);
 
         res = new JLabel("");

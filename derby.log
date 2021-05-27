@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Thu May 27 20:17:54 EEST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0179-aed5-24fe-00000e98cdc0 
+Fri May 28 02:44:57 EEST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0179-b037-7c92-00000e98d1a8 
 on database directory E:\transfer\Facultate\Food-Delivery-App\foodDeliveryAppDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@3764951d 
 Loaded from file:/E:/Downloads/db-derby-10.15.2.0-lib/db-derby-10.15.2.0-lib/lib/derby.jar
 java.vendor=Oracle Corporation
