@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DriversController {
-    DatabaseService db = DatabaseService.getInstance();
+    static DatabaseService db = DatabaseService.getInstance();
 
     public Driver Create(String Drivername, String email, String password, String vehicleType, String vehicleNumber) throws Exception {
         Driver newDriver = new Driver().availability(true).vehicleNumber(vehicleNumber).vehicleType(vehicleType);
@@ -30,7 +30,7 @@ public class DriversController {
         return null;
     }
 
-    public List<Driver> Read() throws Exception {
+    public static List<Driver> Read() throws Exception {
         List<Driver> Drivers = new ArrayList<>();
         ResultSet results = db.connection.createStatement().executeQuery("SELECT ID, USERNAME, EMAIL, VEHICLE_TYPE, VEHICLE_NUMBER, AVAILABILITY FROM DRIVERS");
         while(results.next()){

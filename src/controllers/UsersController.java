@@ -1,4 +1,5 @@
 package controllers;
+import DB.CsvManipulator;
 import DB.DatabaseService;
 import orders.Order;
 import users.User;
@@ -11,6 +12,14 @@ public class UsersController {
     static DatabaseService db = DatabaseService.getInstance();
 
     public User Create(String username, String email, String password, String address) throws Exception {
+
+        String threadName = Thread.currentThread().getName();
+        String methodName = new Object() {}
+                .getClass()
+                .getEnclosingMethod()
+                .getName();
+        CsvManipulator.write(methodName, threadName);
+
         User newUser = new User().username(username).email(email).password(password).address(address);
         PreparedStatement statement = db.connection.prepareStatement("INSERT INTO users (ID, USERNAME, EMAIL, PASSWORD, ADDRESS, AGE) VALUES (?,?,?,?,?)");
 
@@ -28,6 +37,13 @@ public class UsersController {
     }
 
     public static List<User> Read() throws Exception {
+        String threadName = Thread.currentThread().getName();
+        String methodName = new Object() {}
+                .getClass()
+                .getEnclosingMethod()
+                .getName();
+        CsvManipulator.write(methodName, threadName);
+
         List<User> users = new ArrayList<>();
         ResultSet results = db.connection.createStatement().executeQuery("SELECT ID, username, email, address, age FROM users");
         while(results.next()){
@@ -37,6 +53,14 @@ public class UsersController {
     }
 
     public static User FindUserByUserName(String userName) throws Exception {
+
+        String threadName = Thread.currentThread().getName();
+        String methodName = new Object() {}
+                .getClass()
+                .getEnclosingMethod()
+                .getName();
+        CsvManipulator.write(methodName, threadName);
+
         PreparedStatement st = db.connection.prepareStatement("SELECT ID, USERNAME, EMAIL, ADDRESS FROM USERS WHERE USERNAME = ?");
         st.setString(1, userName);
 
@@ -45,10 +69,17 @@ public class UsersController {
         User searchedUser = new User(result.getString(1)).username(result.getString(2)).email(result.getString(3)).address(result.getString(4));
 
         return searchedUser;
-
     }
 
     public static User FindUserById(String id) throws Exception {
+
+        String threadName = Thread.currentThread().getName();
+        String methodName = new Object() {}
+                .getClass()
+                .getEnclosingMethod()
+                .getName();
+        CsvManipulator.write(methodName, threadName);
+
         PreparedStatement st = db.connection.prepareStatement("SELECT ID, USERNAME, EMAIL, ADDRESS FROM USERS WHERE ID = ?");
         st.setString(1, id);
 
@@ -60,6 +91,14 @@ public class UsersController {
     }
 
     public static boolean Update(String id, String fieldToUpdate, String updatedValue) throws Exception {
+
+        String threadName = Thread.currentThread().getName();
+        String methodName = new Object() {}
+                .getClass()
+                .getEnclosingMethod()
+                .getName();
+        CsvManipulator.write(methodName, threadName);
+
         PreparedStatement statement;
         switch (fieldToUpdate){
             case "USERNAME":

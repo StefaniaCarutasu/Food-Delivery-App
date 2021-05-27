@@ -109,12 +109,8 @@ public class Restaurant {
 
     @Override
     public String toString() {
-        return "Restaurant{" +
-                "Name='" + Name + '\'' +
-                ", PhoneNumber='" + PhoneNumber + '\'' +
-                ", Email='" + Email + '\'' +
-                ", Type='" + Type + '\'' +
-                '}';
+        String res = this.Name +  System.lineSeparator() + "Phone: " + this.PhoneNumber + "\n" + "Email: " + this.Email;
+        return res;
     }
 }
 
