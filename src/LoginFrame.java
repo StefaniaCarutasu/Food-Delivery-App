@@ -1,5 +1,4 @@
 import controllers.UsersController;
-import DB.DatabaseService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -157,5 +156,6 @@ class RegistrationClass {
     public static void main(String[] args) throws Exception
     {
         LoginFrame f = new LoginFrame();
+
     }
 }
