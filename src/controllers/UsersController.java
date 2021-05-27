@@ -3,6 +3,8 @@ import DB.CsvManipulator;
 import DB.DatabaseService;
 import orders.Order;
 import users.User;
+
+import javax.swing.text.html.CSS;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +13,7 @@ import java.util.*;
 public class UsersController {
     static DatabaseService db = DatabaseService.getInstance();
 
-    public User Create(String username, String email, String password, String address) throws Exception {
+    public static User Create(String username, String email, String password, String address, int age) throws Exception {
 
         String threadName = Thread.currentThread().getName();
         String methodName = new Object() {}
@@ -20,8 +22,9 @@ public class UsersController {
                 .getName();
         CsvManipulator.write(methodName, threadName);
 
-        User newUser = new User().username(username).email(email).password(password).address(address);
-        PreparedStatement statement = db.connection.prepareStatement("INSERT INTO users (ID, USERNAME, EMAIL, PASSWORD, ADDRESS, AGE) VALUES (?,?,?,?,?)");
+        User newUser = new User().username(username).email(email).password(password).address(address).age(age);
+
+        PreparedStatement statement = db.connection.prepareStatement("INSERT INTO users (ID, USERNAME, EMAIL, PASSWORD, ADDRESS, AGE) VALUES (?,?,?,?,?,?)");
 
         statement.setString(1, newUser.getID());
         statement.setString(2, newUser.getUsername());

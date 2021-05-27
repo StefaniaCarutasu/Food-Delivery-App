@@ -15,17 +15,16 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 
-public class FoodDeliveryGUI extends JFrame {
+public class MainFrame extends JFrame {
     private JPanel restaurantsPanel;
 
-    public FoodDeliveryGUI(String title){
+    public MainFrame(String title){
         super(title);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(restaurantsPanel);
         this.pack();
     }
-
 
     public static JPanel popUpPanelRestaurant(JPanel parentPanel){
         JPanel panouRestaurant = new JPanel();
@@ -91,7 +90,7 @@ public class FoodDeliveryGUI extends JFrame {
                     panouProduse.add(spMancare);
                     panouProduse.add(spBauturi);
 
-                    panouPrincipal.add(panouProduse, BorderLayout.PAGE_END);
+                    panouPrincipal.add(panouProduse, BorderLayout.CENTER);
 
                     JOptionPane showOneRestaurant = new JOptionPane(restaurant);
                     showOneRestaurant.add(panouPrincipal);
@@ -209,9 +208,9 @@ public class FoodDeliveryGUI extends JFrame {
 
     }
 
-    static void showRestaurantsUsersDrivers() throws Exception {
+    static JFrame showRestaurantsUsersDrivers() throws Exception {
 
-        JFrame frame = new JFrame("Glovo dupa o luna in Vaslui");
+        JFrame frame = new JFrame("Glovo 2.0");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -230,11 +229,16 @@ public class FoodDeliveryGUI extends JFrame {
         frame.add(tabbedPane, BorderLayout.CENTER);
         frame.setSize(800, 400);
         frame.setVisible(true);
-    }
 
+        return frame;
+    }
 
 
     public static void main(String[] args) throws Exception {
-        showRestaurantsUsersDrivers();
+        MainFrame gui = new MainFrame("Food Delivery");
+        gui.setContentPane(showRestaurantsUsersDrivers());
+
+
     }
 }
+

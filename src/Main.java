@@ -10,10 +10,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
         DatabaseService db = DatabaseService.getInstance();
-        //List<User> users = UsersController.Read();
-        //System.out.println(users.get(0).getAge());
 
-        Restaurant res = RestaurantsController.getRestaurantByName("Mama Mia");
-        System.out.println(res.getName());
+        UsersController.Create("user", "user@email.ro", "12345", "Adresa user", 20);
     }
 }

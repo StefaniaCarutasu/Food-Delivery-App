@@ -1,5 +1,6 @@
 package controllers;
 
+import DB.CsvManipulator;
 import DB.DatabaseService;
 import restaurants.DrinkItem;
 import restaurants.FoodItem;
@@ -16,6 +17,14 @@ public class MenuItemsController {
     DatabaseService db = DatabaseService.getInstance();
 
     public FoodItem CreateFoodItem(String name, String restaurantId, Double price, String ingredients, String allergens, Boolean isSpicy, Boolean isVegan, Boolean isVegetarian) throws SQLException {
+
+        String threadName = Thread.currentThread().getName();
+        String methodName = new Object() {}
+                .getClass()
+                .getEnclosingMethod()
+                .getName();
+        CsvManipulator.write(methodName, threadName);
+
         FoodItem newItem = new FoodItem().isSpicy(isSpicy).isVegetarian(isVegetarian).isVegan(isVegan);
         newItem.name(name).restaurantId(restaurantId).price(price).ingredients(ingredients).allergens(allergens);
 
@@ -35,6 +44,13 @@ public class MenuItemsController {
     }
 
     public DrinkItem CreateDrinkItem(String name, String restaurantId, Double price, String ingredients, String allergens, Boolean isAlcoholic) throws SQLException {
+        String threadName = Thread.currentThread().getName();
+        String methodName = new Object() {}
+                .getClass()
+                .getEnclosingMethod()
+                .getName();
+        CsvManipulator.write(methodName, threadName);
+
         DrinkItem newItem = new DrinkItem().isAlcoholic(isAlcoholic);
         newItem.name(name).restaurantId(restaurantId).price(price).ingredients(ingredients).allergens(allergens);
 
@@ -53,6 +69,14 @@ public class MenuItemsController {
     }
 
     public List<MenuItem> ReadItem(String id) throws SQLException {
+
+        String threadName = Thread.currentThread().getName();
+        String methodName = new Object() {}
+                .getClass()
+                .getEnclosingMethod()
+                .getName();
+        CsvManipulator.write(methodName, threadName);
+
         List<MenuItem> items = new ArrayList<>();
 
         PreparedStatement fStatement = db.connection.prepareStatement("SELECT ID, NAME, PRICE, INGREDIENTS FROM FOOD_ITEMS WHERE RESTAURANT_ID LIKE ?");
