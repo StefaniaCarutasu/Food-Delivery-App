@@ -101,8 +101,12 @@ public class FoodDeliveryGUI extends JFrame {
 
                 } catch (SQLException throwables) {
                     restaurant = "Nu exista acest restaurant. Verificati daca ati introdus numele corect!";
-                    JOptionPane showOneRestaurant = new JOptionPane(restaurant);
-                    JOptionPane.showMessageDialog(parentPanel, showOneRestaurant);
+                    JPanel nuAGasit = new JPanel();
+                    JLabel res = new JLabel();
+                    res.setText(restaurant);
+                    nuAGasit.add(res);
+
+                    JOptionPane.showMessageDialog(parentPanel, nuAGasit);
                 }
 
 
