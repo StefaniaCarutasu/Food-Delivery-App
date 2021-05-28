@@ -10,7 +10,7 @@ import java.util.List;
 public class DriversController {
     static DatabaseService db = DatabaseService.getInstance();
 
-    public Driver Create(String Drivername, String email, String password, String vehicleType, String vehicleNumber) throws Exception {
+    public static Driver Create(String Drivername, String email, String password, String vehicleType, String vehicleNumber) throws Exception {
         String threadName = Thread.currentThread().getName();
         String methodName = new Object() {}
                 .getClass()
@@ -22,15 +22,17 @@ public class DriversController {
         newDriver.setUsername(Drivername);
         newDriver.setEmail(email);
         newDriver.setPassword(password);
+        newDriver.setVehicleNumber(vehicleNumber);
 
-        PreparedStatement statement = db.connection.prepareStatement("INSERT INTO Drivers (ID, USERNAME, EMAIL, PASSWORD, VEHICLE_TYPE, VEHICLE_NUMBER, AVAILABILITY) VALUES (?,?,?,?,?)");
+        PreparedStatement statement = db.connection.prepareStatement("INSERT INTO Drivers (ID, USERNAME, EMAIL, PASSWORD, ADDRESS, VEHICLE_TYPE, VEHICLE_NUMBER, AVAILABILITY) VALUES (?,?,?,?,?,?,?,?)");
         statement.setString(1, newDriver.getID());
         statement.setString(2, newDriver.getUsername());
         statement.setString(3, newDriver.getEmail());
         statement.setString(4, newDriver.getPassword());
-        statement.setString(5, newDriver.getVehicleType());
-        statement.setString(6, newDriver.getVehicleNumber());
-        statement.setBoolean(7, newDriver.getAvailability());
+        statement.setString(5, "");
+        statement.setString(6, newDriver.getVehicleType());
+        statement.setString(7, newDriver.getVehicleNumber());
+        statement.setBoolean(8, newDriver.getAvailability());
 
         if(statement.executeUpdate() == 1){
             return newDriver;
