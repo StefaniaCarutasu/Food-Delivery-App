@@ -12,9 +12,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MenuItemsController {
-    DatabaseService db = DatabaseService.getInstance();
+    static DatabaseService db = DatabaseService.getInstance();
 
     public FoodItem CreateFoodItem(String name, String restaurantId, Double price, String ingredients, String allergens, Boolean isSpicy, Boolean isVegan, Boolean isVegetarian) throws SQLException {
 
@@ -98,6 +99,58 @@ public class MenuItemsController {
         }
 
         return items;
+    }
+
+    public static boolean Update(String id, String fieldToUpdate, String updatedValue, String type) throws Exception {
+
+        String threadName = Thread.currentThread().getName();
+        String methodName = new Object() {}
+                .getClass()
+                .getEnclosingMethod()
+                .getName();
+        CsvManipulator.write(methodName, threadName);
+
+        PreparedStatement statement;
+        switch (fieldToUpdate){
+            case "NAME":
+                if(type.equals("FOOD")){
+                    statement = db.connection.prepareStatement("UPDATE FOOD_ITEMS SET NAME = ? WHERE ID LIKE ?");
+                }
+                else {
+                    statement = db.connection.prepareStatement("UPDATE DRINK_ITEMS SET NAME = ? WHERE ID LIKE ?");
+                }
+                statement.setString(1, updatedValue);
+                statement.setString(2, id);
+                return statement.executeUpdate() == 1;
+            case "PRICE":
+                if(type.equals("FOOD")){
+                    statement = db.connection.prepareStatement("UPDATE FOOD_ITEMS SET PRICE = ? WHERE ID LIKE ?");
+                }
+                else {
+                    statement = db.connection.prepareStatement("UPDATE DRINK_ITEMS SET PRICE = ? WHERE ID LIKE ?");
+                }
+                statement.setDouble(1, Integer.parseInt(updatedValue));
+                statement.setString(2, id);
+                return statement.executeUpdate() == 1;
+            default:
+                return false;
+        }
+
+
+    }
+
+    public boolean Delete(String id, String type) throws Exception {
+        PreparedStatement statement;
+        if(type.equals("FOOD")){
+            statement = db.connection.prepareStatement("DELETE FROM FOOD_ITEMS WHERE id like ?");
+        }
+        else {
+            statement = db.connection.prepareStatement("DELETE FROM DRINK_ITEMS WHERE id like ?");
+        }
+
+
+        statement.setString(1, id);
+        return statement.executeUpdate() == 1;
     }
 
 }

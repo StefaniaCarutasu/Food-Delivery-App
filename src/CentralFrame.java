@@ -28,7 +28,9 @@ public class CentralFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    setVisible(false);
                     LoginFrame f = new LoginFrame();
+
                 } catch (FontFormatException fontFormatException) {
                     fontFormatException.printStackTrace();
                 }
@@ -37,9 +39,9 @@ public class CentralFrame extends JFrame {
         nextFrame.setSize(100, 20);
         nextFrame.setBackground(new Color(226, 190, 235));
         c = getContentPane();
+        c.add(showRestaurantsUsersDrivers(), BorderLayout.CENTER);
         c.setLayout(null);
         c.setBackground(new Color(226, 190, 235));
-        c.add(showRestaurantsUsersDrivers(), BorderLayout.CENTER);
         setVisible(true);
     }
 

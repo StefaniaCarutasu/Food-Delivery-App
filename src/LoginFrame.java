@@ -43,7 +43,9 @@ public class LoginFrame extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    setVisible(false);
                     CentralFrame cf = new CentralFrame();
+
                 } catch (Exception exception) {
                     JLabel l = new JLabel("Nu s-a putut deschide fereastra");
                     c.add(l);
