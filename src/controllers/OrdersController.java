@@ -15,7 +15,7 @@ import java.util.UUID;
 public class OrdersController {
     DatabaseService db = DatabaseService.getInstance();
 
-    public Order Create(String userId, String restaurantId, String paymentMethod, List<MenuItem> items) throws SQLException {
+    public Order Create(String userId, String restaurantId, String paymentMethod, List<MenuItem> items) throws Exception {
 
         String threadName = Thread.currentThread().getName();
         String methodName = new Object() {}
@@ -30,6 +30,7 @@ public class OrdersController {
         ResultSet availableDrivers = findDriverStatement.executeQuery();
         availableDrivers.next();
         String driverId = availableDrivers.getString(1);
+        DriversController.Update(driverId, "AVAILABILITY", "false");
 
         Order newOrder = new Order().userId(userId).restaurantId(restaurantId).driverId(driverId).paymentMethod(paymentMethod).orderedItems(items).totalPrice().status("Active");
         PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ORDERS (ID, USER_ID, RESTAURANT_ID, DRIVER_ID, PRICE, PAYMENT_METHOD, STATUS, DATE VALUES (?,?,?,?,?,?,?,?)");

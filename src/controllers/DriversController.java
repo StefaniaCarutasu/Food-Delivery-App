@@ -56,7 +56,7 @@ public class DriversController {
         return Drivers;
     }
 
-    public boolean Update(String id, String fieldToUpdate, String updatedValue) throws Exception {
+    public static boolean Update(String id, String fieldToUpdate, String updatedValue) throws Exception {
         String threadName = Thread.currentThread().getName();
         String methodName = new Object() {}
                 .getClass()
